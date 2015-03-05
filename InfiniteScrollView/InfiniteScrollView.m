@@ -14,6 +14,7 @@
 @property(nonatomic,assign) NSUInteger currentIndex;
 @property(nonatomic,strong) NSArray *displayViews;
 @property(nonatomic) CGFloat previousScrollViewOffsetX;
+@property(nonatomic,strong) UIPageControl *pageControl;
 @end
 
 @implementation InfiniteScrollView
@@ -36,7 +37,12 @@
         self.previousScrollViewOffsetX = self.frame.size.width;
         self.displayViews = views;
         [self setContentViews:views currentIndex:self.currentIndex];
+        self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - 100, self.frame.size.height , 200, 30)];
+        
+        self.pageControl.currentPage = self.currentIndex;
+        self.pageControl.numberOfPages = views.count;
         [self addSubview:self.scrollView];
+        [self addSubview:self.pageControl];
     }
     
     return self;
@@ -101,6 +107,7 @@
     }
     self.previousScrollViewOffsetX = scrollView.contentOffset.x;
     [self setContentViews:self.displayViews currentIndex:self.currentIndex];
+    self.pageControl.currentPage = self.currentIndex;
     
 }
 
